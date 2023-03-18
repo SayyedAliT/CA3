@@ -347,7 +347,7 @@ void update_teacher(TeacherBook &teacher_information , string teacher_name,int c
     }
 
 }
-Class_information create_schedule(CourseBook &courses_information,Teachers_information teacher_can_present,Courses_information lesson_can_be_presented,int current_day,Time current_time,int class_number,TeacherBook &teachers_information)
+void create_schedule(CourseBook &courses_information,Teachers_information teacher_can_present,Courses_information lesson_can_be_presented,int current_day,Time current_time,int class_number,TeacherBook &teachers_information)
 {
     for(int course = 0 ;course <courses_information.size();course++)
     {
@@ -373,8 +373,6 @@ Class_information create_schedule(CourseBook &courses_information,Teachers_infor
             
         }
     }
-    
-    
 }
 
 
@@ -478,10 +476,21 @@ CourseBook find_lesson_can_be_presented(Time current_time, CourseBook &courses_i
             continue;
         }
         int day1 = convert_daytoi(courses_information[course].day1), day2 = convert_daytoi(courses_information[course].day2);
+        if(class_number==CLASS_ONE)
 
-        if ((class1_board[day1][course_ring_number] == 1 || class1_board[day2][course_ring_number] == 1)||(class2_board[day1][course_ring_number] == 1 || class2_board[day2][course_ring_number] == 1))
         {
-            continue;
+            if ((class1_board[day1][course_ring_number] == 1 || class1_board[day2][course_ring_number] == 1))
+            {
+                continue;
+            }
+
+        }
+        if(class_number==CLASS_TWO)
+        {
+            if(class2_board[day1][course_ring_number] == 1 || class2_board[day2][course_ring_number] == 1)
+            {
+                continue;
+            }
         }
         if (finish_is_after(courses_information[course].finish_time, finish_time_of_class) && start_is_before(courses_information[course].start_time, current_time) && (check_days(courses_information[course], day)))
         {
@@ -493,7 +502,7 @@ CourseBook find_lesson_can_be_presented(Time current_time, CourseBook &courses_i
 }
 
 
-Weekly_schedule create_weekly_schedule_class1(TeacherBook &teachers_information, CourseBook &courses_information)
+void create_weekly_schedule_class1(TeacherBook &teachers_information, CourseBook &courses_information)
 {
 
     int class_number = CLASS_ONE;
@@ -551,7 +560,7 @@ Weekly_schedule create_weekly_schedule_class1(TeacherBook &teachers_information,
 
 
 
-Weekly_schedule create_weekly_schedule_class2(TeacherBook &teachers_information, CourseBook &courses_information)
+void create_weekly_schedule_class2(TeacherBook &teachers_information, CourseBook &courses_information)
 {
     
     int class_number = CLASS_TWO;
