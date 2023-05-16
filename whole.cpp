@@ -193,13 +193,21 @@ TimeMission::TimeMission(int id, int start, int end, int reward, int target_time
 bool TimeMission::is_completed() {
     return target_time_in_minutes <= 0;
 }
-
+bool Mission::is_trip_in_mission(shared_ptr<Trip> new_trip)
+{
+    if(new_trip->get_start_timestamp > start_timestamp && (new_trip->get_start_timestamp <=e ))
+    {
+        return true;
+    }
+    return false;
+}
 void TimeMission::create_new_trip(shared_ptr<Trip> new_trip) {
     if (this->is_trip_in_misson(new_trip)) {
         int duration = new_trip->get_end_timestamp() - new_trip->get_start_timestamp();
         target_time_in_minutes -= duration;
     }
 }
+
 
 shared_ptr<Mission> TimeMission::clone() {
     return make_shared<TimeMission>(*this);
